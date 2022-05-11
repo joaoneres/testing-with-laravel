@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Exception;
-
 class UniformRectilinearMotionService
 {
     public function displacement($initial_position, $final_position)

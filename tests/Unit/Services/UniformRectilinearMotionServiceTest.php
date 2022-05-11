@@ -9,88 +9,84 @@ class UniformRectilinearMotionServiceTest extends TestCase
 {
     // displacement
 
-    public function testDisplacementShouldBeValidWithNaturalNumbers()
+    /**
+     * @dataProvider provideDisplacementCases
+     */
+    public function testDisplacementCases($initial_position, $final_position, $expected_result)
     {
         $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $displacement = $uniform_rectilinear_motion_service->displacement(0, 3);
-        $this->assertEquals(3, $displacement);
+        $displacement = $uniform_rectilinear_motion_service->displacement($initial_position, $final_position);
+        $this->assertEquals($displacement, $expected_result);
     }
 
-    public function testDisplacementShouldBeValidWithRealNumbers()
+    public function provideDisplacementCases()
     {
-        $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $displacement = $uniform_rectilinear_motion_service->displacement(-5, -1);
-        $this->assertEquals(4, $displacement);
-    }
-
-    public function testDisplacementShouldBeValidWithRationalNumbers()
-    {
-        $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $displacement = $uniform_rectilinear_motion_service->displacement(pi(), exp(1));
-        $this->assertEquals(-0.423, round($displacement, 3));
+        return [
+            'shouldBeValidWithNaturalNumbers' => [
+                'initial_position' => 0,
+                'final_position' => 3,
+                'expected_result' => 3,
+            ],
+            'shouldBeValidWithRealNumbers' => [
+                'initial_position' => -5,
+                'final_position' => -1,
+                'expected_result' => 4,
+            ],
+            'shouldBeValidWithRationalNumbers' => [
+                'initial_position' => pi(),
+                'final_position' => exp(1),
+                'expected_result' => -0.423310825130748,
+            ],
+        ];
     }
 
     // averageSpeed
 
-    public function testAverageSpeedShouldBeValidWithNaturalNumbers()
+    /**
+     * @dataProvider provideAverageSpeedAndAverageAccelerationCases
+     */
+    public function testAverageSpeedCases($displacement, $time_variation, $expected_result)
     {
         $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $displacement = $uniform_rectilinear_motion_service->displacement(0, 3);
-        $average_speed = $uniform_rectilinear_motion_service->averageSpeed($displacement, 3);
-        $this->assertEquals(1, $average_speed);
-    }
-
-    public function testAverageSpeedShouldBeValidWithRealNumbers()
-    {
-        $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $displacement = $uniform_rectilinear_motion_service->displacement(-5, -1);
-        $average_speed = $uniform_rectilinear_motion_service->averageSpeed($displacement, 2);
-        $this->assertEquals(2, $average_speed);
-    }
-
-    public function testAverageSpeedShouldBeValidWithRationalNumbers()
-    {
-        $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $displacement = $uniform_rectilinear_motion_service->displacement(pi(), exp(1));
-        $average_speed = $uniform_rectilinear_motion_service->averageSpeed($displacement, pi());
-        $this->assertEquals(-0.135, round($average_speed, 3));
-    }
-
-    public function testAverageSpeedShouldBeZeroWithZeroTimeVariation()
-    {
-        $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $displacement = $uniform_rectilinear_motion_service->displacement(5, 0);
-        $average_speed = $uniform_rectilinear_motion_service->averageSpeed($displacement, 0);
-        $this->assertEquals(0, round($average_speed, 3));
+        $average_speed = $uniform_rectilinear_motion_service->averageSpeed($displacement, $time_variation);
+        $this->assertEquals($average_speed, $expected_result);
     }
 
     // averageAcceleration
 
-    public function testAverageAccelerationShouldBeValidWithNaturalNumbers()
+    /**
+     * @dataProvider provideAverageSpeedAndAverageAccelerationCases
+     */
+    public function testAverageAccelerationCases($average_speed, $time_variation, $expected_result)
     {
         $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $average_acceleration = $uniform_rectilinear_motion_service->averageAcceleration(3, 3);
-        $this->assertEquals(1, $average_acceleration);
+        $average_acceleration = $uniform_rectilinear_motion_service->averageAcceleration($average_speed, $time_variation);
+        $this->assertEquals($average_acceleration, $expected_result);
     }
 
-    public function testAverageAccelerationShouldBeValidWithRealNumbers()
+    public function provideAverageSpeedAndAverageAccelerationCases()
     {
-        $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $average_acceleration = $uniform_rectilinear_motion_service->averageAcceleration(-5, 2);
-        $this->assertEquals(-2.5, $average_acceleration);
-    }
-
-    public function testAverageAccelerationShouldBeValidWithRationalNumbers()
-    {
-        $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $average_acceleration = $uniform_rectilinear_motion_service->averageAcceleration(exp(1), pi());
-        $this->assertEquals(0.865, round($average_acceleration, 3));
-    }
-
-    public function testAverageAccelerationShouldBeZeroWithZeroTimeVariation()
-    {
-        $uniform_rectilinear_motion_service = new UniformRectilinearMotionService();
-        $average_acceleration = $uniform_rectilinear_motion_service->averageAcceleration(4.2, 0);
-        $this->assertEquals(0, round($average_acceleration, 3));
+        return [
+            'shouldBeValidWithNaturalNumbers' => [
+                'displacement' => 3,
+                'time_variation' => 3,
+                'expected_result' => 1,
+            ],
+            'shouldBeValidWithRealNumbers' => [
+                'displacement' => -7,
+                'time_variation' => 2,
+                'expected_result' => -3.5,
+            ],
+            'shouldBeValidWithRationalNumbers' => [
+                'displacement' => pi(),
+                'time_variation' => pi(),
+                'expected_result' => 1,
+            ],
+            'shouldBeZeroWithZeroTimeVariation' => [
+                'displacement' => pi(),
+                'time_variation' => 0,
+                'expected_result' => 0,
+            ],
+        ];
     }
 }

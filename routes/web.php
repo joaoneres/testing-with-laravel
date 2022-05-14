@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/temperature-measurement/add', [App\Http\Controllers\TemperatureMeasurementController::class, 'add']);
+Route::post('/temperature-measurement/add', [App\Http\Controllers\TemperatureMeasurementController::class, 'save'])->name('temperature-measurement.save');

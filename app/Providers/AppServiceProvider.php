@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Interfaces\LoggerInterface;
 use App\Interfaces\TemperatureMeasurementRepositoryInterface;
 use App\Repositories\TemperatureMeasurementRepository;
 use Illuminate\Support\ServiceProvider;
+use LoggerRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(TemperatureMeasurementRepositoryInterface::class, TemperatureMeasurementRepository::class);
+        $this->app->bind(LoggerInterface::class, LoggerRepository::class);
     }
 
     /**

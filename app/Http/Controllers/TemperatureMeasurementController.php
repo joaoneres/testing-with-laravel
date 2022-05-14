@@ -21,7 +21,7 @@ class TemperatureMeasurementController extends Controller
 
     public function save(AddTemperatureMeasurementRequest $request)
     {
-        $this->temperature_measurement_service->save($request);
+        $this->temperature_measurement_service->save($request->all());
         return view('temperature-measurement.success');
     }
 }

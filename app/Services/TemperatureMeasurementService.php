@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Interfaces\TemperatureMeasurementRepositoryInterface;
-use Illuminate\Http\Request;
 
 class TemperatureMeasurementService
 {
@@ -14,10 +13,10 @@ class TemperatureMeasurementService
         $this->temperature_measurement_repository = $temperature_measurement_repository;
     }
 
-    public function save(Request $request)
+    public function save(Array $data)
     {
-        if($request->temperature >= 150) {
-            $this->temperature_measurement_repository->save($request->all());
+        if($data['temperature'] >= 150) {
+            $this->temperature_measurement_repository->save($data);
         }
     }
 }

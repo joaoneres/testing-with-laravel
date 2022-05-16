@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/address/add', [App\Http\Controllers\AddressController::class, 'add']);
+Route::post('/address/add', [App\Http\Controllers\AddressController::class, 'store'])->name('address.store');

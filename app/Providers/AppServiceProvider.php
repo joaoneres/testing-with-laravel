@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Interfaces\AddressRepositoryInterface;
+use App\Interfaces\CepServiceInterface;
+use App\Repositories\AddressRepository;
+use App\Services\CepService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(AddressRepositoryInterface::class, AddressRepository::class);
+        $this->app->bind(CepServiceInterface::class, CepService::class);
     }
 
     /**

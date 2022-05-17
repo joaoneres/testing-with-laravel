@@ -19,7 +19,7 @@ class AddressRepository implements AddressRepositoryInterface
     {
         $cep_data = $this->cep_service->cep($cep);
 
-        return Address::create([
+        return new Address([
             'street' => $cep_data['logradouro'],
             'cep' => $cep,
             'number' => $address_number,

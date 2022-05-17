@@ -21,7 +21,8 @@ class AddressController extends Controller
 
     public function store(AddAddressRequest $request)
     {
-        $this->address_repository->store($request->cep, $request->address_number);
+        $address = $this->address_repository->store($request->cep, $request->address_number);
+        $address->save();
         return view('address.processed');
     }
 }
